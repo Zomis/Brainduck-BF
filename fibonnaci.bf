@@ -75,16 +75,51 @@ $ assert hasName('digitStart')
     $ name 'B'
     [-] Clear B
     < [-]< [->+>+<<] at A after B = A
+    $ name 'A'
     >>>>[->>>>-<<<< <<<<+>>>>] Set A = C and stop at C
     $ name 'C'
     
-    Perform move from OVERFLOW to C before dealing with A
-    <[->+>-<<]>
-
-    Now do c = a plus b
-    <<<[->>>+>-<<<<] c = b
+    Now do C = A plus B
     <
-    $ name 'A'
+    $ name 'overflow'
+<<
+    $ name 'A_2'
+
+
+     customRun('31')
+    $ pause()
+    [
+$ assert hasName('A_2')
+->>>+>-
+
+>[-]+>[-]<<[>-]>[<
+code2 <<[-]+>> +++++ +++++
+>->]<<
+      <<<<] C = B
+    <
+
+
+    [
+$ assert hasName('A')
+->+>>>+>- Move 1 from A to the current C value  
+
+>[-]+>[-]<<[>-]>[<
+code2 <<[-]+>> +++++ +++++
+>->]<<
+      <<<<<]
+
+
+
+
+
+
+
+
+
+
+
+
+
     [->+>>>+>- Move 1 from A to the current C value  
     >
     $ name 'overflowTemp'
