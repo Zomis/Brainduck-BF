@@ -74,7 +74,7 @@ $ assert hasName('digitStart')
     <<<
     $ name 'B'
     [-] Clear B
-    < [-]< [->+>+<<] at A after B = A
+    <    < [->+>+<<] at A after B = A
     $ name 'A'
     >>>>[->>>>-<<<< <<<<+>>>>] Set A = C and stop at C
     $ name 'C'
@@ -90,9 +90,8 @@ $ assert hasName('digitStart')
     [
 $ assert hasName('A_2')
 ->>>+>-
-
->[-]+>[-]<<[>-]>[<
-code2 <<[-]+>> +++++ +++++
+>+<[>-]>[<
+code2 <<   +>> +++++ +++++
 >->]<<
       <<<<] C = B
     <
@@ -102,21 +101,10 @@ code2 <<[-]+>> +++++ +++++
 $ assert hasName('A')
 ->+>>>+>- Move 1 from A to the current C value  
 
->[-]+>[-]<<[>-]>[<
-code2 <<[-]+>> +++++ +++++
+>+<[>-]>[<
+code2 <<   +>> +++++ +++++
 >->]<<
       <<<<<]
-
-
-
-
-
-
-
-
-
-
-
 
     >>>
     $ assert hasName('overflow')
@@ -127,9 +115,9 @@ code2 <<[-]+>> +++++ +++++
         Check if next digit was not previously activated
         
         $ name 'activatedTemp'
-       [-]+<
+          +
         $ name 'activatedTemp2'
-       [-]>>[<-]<[>
+          >[<-]<[>
             Activate Digit
             >>> >>> +++++ +++++
             >>> +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++
@@ -141,20 +129,17 @@ code2 <<[-]+>> +++++ +++++
         End check if next digit was not previously activated
         $ name 'digitStart'
         + > +
-        >>>> 
-        $ name 'C_overflow'
-          <<<<
         <<<< <<
         End increase next digit
         <<----- ----- >
          x <<-
     ] C plus equals A
     $ assert hasName('overflow')
-    <<<
-    >[-<+>]< Move right of A back to A
+    <<
+    [-<+>] Move right of A back to A
     
     Move C to number
-    >>>> [->>+>>+<<<<] >> [-<<+>>]
+    >>> [->>+>>+<<<<] >> [-<<+>>]
     
 Goto next activated digits
 >>>>>
