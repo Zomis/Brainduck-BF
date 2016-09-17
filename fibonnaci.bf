@@ -2,7 +2,7 @@
 $ wrapValue CRASH
 $ wrapMemory CRASH
 $ minValue 0
-$ maxValue 110
+$ maxValue 65
 
 $ name 'countdown'
   +++++ +++++ +++++ +++++ +++++ +++++ ++ Countdown
@@ -87,7 +87,6 @@ $ assert hasName('digitStart')
 
 
      customRun('31')
-    $ pause()
     [
 $ assert hasName('A_2')
 ->>>+>-
@@ -119,15 +118,11 @@ code2 <<[-]+>> +++++ +++++
 
 
 
-
-    [->+>>>+>- Move 1 from A to the current C value  
-    >
-    $ name 'overflowTemp'
-    [-]+>
-    $ name 'overflowTemp2'
-    [-]<<[>-]>[<
+    >>>
+    $ assert hasName('overflow')
+    [
         increase next digit and activate it if it wasn't activated already
-        >>>>>
+        >>>>>>>
 
         Check if next digit was not previously activated
         
@@ -145,15 +140,17 @@ code2 <<[-]+>> +++++ +++++
         <-<]>>
         End check if next digit was not previously activated
         $ name 'digitStart'
-        + >>>> +
-        $ name 'overflow'
+        + > +
+        >>>> 
+        $ name 'C_overflow'
           <<<<
         <<<< <<
         End increase next digit
-        <----- ----- >
-        +++++ +++++ x >->]<<    check if we are more than 10
-    <<<<<
+        <<----- ----- >
+         x <<-
     ] C plus equals A
+    $ assert hasName('overflow')
+    <<<
     >[-<+>]< Move right of A back to A
     
     Move C to number
