@@ -2,10 +2,15 @@
 $ wrapValue CRASH
 $ wrapMemory CRASH
 $ minValue 0
-$ maxValue 65
+$ maxValue 255
 
 $ name 'countdown'
-  +++++ +++++ +++++ +++++ +++++ +++++ ++ Countdown
+>
+ +++++ +++++ 100
+ +++++ +++++ 200
+ +++++ 250
+ [- < +++++ +++++ >] <
+ +++++ 255
 > +++++ +++++ Line break
 $ name 'lineBreak'
 
