@@ -1,47 +1,58 @@
+><
+$ wrapValue CRASH
+$ wrapMemory CRASH
+$ minValue 0
+$ maxValue 110
 
-  +++++ +++++ +++++ +++++ +++++ +++++ ++
-> +++++ +++++
+$ name 'countdown'
+  +++++ +++++ +++++ +++++ +++++ +++++ ++ Countdown
+> +++++ +++++ Line break
+$ name 'lineBreak'
+
+Write out the first ones
+>+++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++.<.>+.<.>[-]
+$ name 'zero'
+
 >
-
+>
 >+
+$ name 'digitStart'
 Digit 1 Value A
->+++++ >
+> >
 Digit 1 Value B
->+++ >
+> >
 Digit 1 Value C
->+++++ +++
+>+
 >
 >
 >
 >+++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ ++++
+$ name 'digit'
 <<<<<
 
 TODO: Print 0 and initialize digits to 0 1
-<< . <<<< . >>>> . <<<< . >>
+<<<<<<<<<
 
-a = 1
-b = 1
-c = a plus b = 2
-c = result
+Memory
+Countdown or loop condition
+New line
+Two empty cells
 
-temp = c
-c = b
-b = a
+Series of DIGITS:
+0 or 1 for if digit is activated
+TODO Add two empty here
+A
+A
+B
+B
+C
+10 minus C
+temp
+temp2
+digit as char
+0 possibly unused
 
-c a b
-0 1 1
-2 1 1
-2 0 1
-0 1 2
 
-3 1 2
-3 0 2
-0 2 3
-
-init a = 0
-init b = 0
-init c = 1
-print c
 
 go to start
 while (has more digits) {
@@ -52,57 +63,84 @@ while (has more digits) {
 }
 
 
-
-a plus b = 3
-b = result
-a plus b = 5
-a = result
-a plus b = 8
-b = result
-
-
-While true
+Use countdown
 [
->>> >>>[-]+++++ +++++ <<<<<<
->>>[-] << >[-]< [->+>+<<]>> at b after b = a
-<< [-] a should already be zero
->>>>[-<<<<+>>>>] at c
+$ assert hasName('countdown')
+->>>>>
+[ For each activated digit
+$ assert hasName('digitStart')
+    >>> >>>[-]+++++ +++++
+    $ name '10minusC'
+    <<<
+    $ name 'B'
+    [-] Clear B
+    < [-]< [->+>+<<] at A after B = A
+    >>>>[->>>>-<<<< <<<<+>>>>] Set A = C and stop at C
+    $ name 'C'
+    
+    Perform move from OVERFLOW to C before dealing with A
+    <[->+>-<<]>
 
-Now do c = a plus b
-<<<[->>>+>-<<<<]>>> c = b
-<<<<[->+>>>+>-  
- >[-]+>[-]<<[>-]>[<
-increase next digit and activate it if it wasn't activated already
- >>>>>
+    Now do c = a plus b
+    <<<[->>>+>-<<<<] c = b
+    <
+    $ name 'A'
+    [->+>>>+>- Move 1 from A to the current C value  
+    >
+    $ name 'overflowTemp'
+    [-]+>
+    $ name 'overflowTemp2'
+    [-]<<[>-]>[<
+        increase next digit and activate it if it wasn't activated already
+        >>>>>
 
-Check if next digit was not previously activated
->[-]+>[-]<<[>-]>[<
-code
->>> >>> +++++ +++++
->>> >>> >>> +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++
-<<< <<< <<<
-<<< <<<
-end code
->->]<<
-End check if next digit was not previously activated
+        Check if next digit was not previously activated
+        
+        $ name 'activatedTemp'
+       [-]+<
+        $ name 'activatedTemp2'
+       [-]>>[<-]<[>
+            Activate Digit
+            >>> >>> +++++ +++++
+            >>> +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++
+            $ name 'digit'
+            <<<
+            <<< <<<
+            End Activate digit
+        <-<]>>
+        End check if next digit was not previously activated
+        $ name 'digitStart'
+        + >>>> +
+        $ name 'overflow'
+          <<<<
+        <<<< <<
+        End increase next digit
+        <----- ----- >
+        +++++ +++++ x >->]<<    check if we are more than 10
+    <<<<<
+    ] C plus equals A
+    >[-<+>]< Move right of A back to A
+    
+    Move C to number
+    >>>> [->>+>>+<<<<] >> [-<<+>>]
+    
+Goto next activated digits
+>>>>>
 
- + <<<<<
+] End of all activated digits
 
+Print numbers
+<<<
 
-
-
-
-end activate next digit
-<----- ----- >
-+++++ +++++ x >->]<<    check if we are more than 10
- <<<<<]>>>> c plus equals a
-
+Go back and print numbers
+[
+$ assert hasName('digit')
+. <<<<< <<<< <<<]
 
 Print new line
-<<<.>>>
+<.
+
+No more numbers to print now go to the counter
+<
 ]
-
-
->>>>>>>>>>>>>>>>>>>>
-
->[->-> >> +>+ <<< <<]
+$ assert hasName('countdown')
