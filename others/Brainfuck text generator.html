@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)https://copy.sh/brainfuck/text.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Brainfuck text generator</title>
+<link rel="stylesheet" href="./Brainfuck text generator_files/base.css">
+<style>
+textarea {
+	width: 377px;
+	height: 233px;
+	display: block;
+}
+</style>
+
+</head><body><a href="https://copy.sh/brainfuck/">Brainfuck Interpreter</a>
+
+<h3>Create a Brainfuck code that outputs a given text</h3>
+<p>
+	Requires an interpreter with 8 Bit cells (most common). Original <a href="http://codegolf.stackexchange.com/a/5440/3428">Java program</a> not from me.
+</p>
+
+<strong>Insert text here:</strong>
+<textarea id="in">This is pretty cool.</textarea> 
+
+<br>
+<strong>Resulting Brainfuck code:</strong>
+<textarea readonly="" id="out"></textarea>
+
+<br>
+<pre id="info_head">Generating table ... done (2.01 seconds).</pre>
+<pre id="info">text length = 20 bytes
+code length = 207 bytes
+ratio = 10.35</pre>
+
+<script>
+var inp = document.getElementById("in"),
+	out = document.getElementById("out"),
+	info = document.getElementById("info"),
+	info_head = document.getElementById("info_head");
+
+function gcd(a, b)
+{
+	if(b === 0)
+	{
+		return a;
+	}
+	else
+	{
+		return gcd(b, a % b);
+	}
+}
+
+function inverse_mod(n, m)
+{
+	var inv1 = 1, 
+		inv2 = 0,
+		tmp;
+
+	while(m)
+	{
+		tmp = inv1;
+		inv1 = inv2;
+		inv2 = tmp - inv2 * (n / m | 0);
+
+		tmp = n;
+		n = m;
+		m = tmp % m;
+	}
+
+	return inv1;
+}
+
+function shortest_str(arr)
+{
+	var min = 0;
+
+	for(var i = 1; i < arr.length; i++)
+	{
+		if(arr[i].length < arr[min].length)
+		{
+			min = i;
+		}
+	}
+
+	return min;
+}
+
+// map[x][y] bf code that transforms x to y
+var map = [],
+	plus_map = [""],
+	minus_map = [""],
+	iter = true,
+	repeat = 2,
+	start;
+
+for(var i = 1; i < 256; i++)
+{
+	plus_map[i] = plus_map[i - 1] + "+";
+	minus_map[i] = minus_map[i - 1] + "-";
+}
+
+// initial state for map[x][y]: go from x to y using +s or -s.                                
+for(var x = 0; x < 256; x++)
+{
+	map[x] = [];
+
+	for(var y = 0; y < 256; y++)
+	{
+		var delta = y - x;
+
+		if(delta > 128)
+		{
+			delta -= 256;
+		}
+		if(delta < -128)
+		{
+			delta += 256;
+		}
+
+		if(delta >= 0) 
+		{
+			map[x][y] = plus_map[delta];
+		}
+		else
+		{
+			map[x][y] = minus_map[-delta];
+		}
+	}
+}
+
+function next()
+{
+	// keep applying rules until we can't find any more shortenings                             
+	iter = false;
+
+	// multiplication by n/d                                                                
+	//console.time("1");
+	for (var x = 0; x < 256; x++)
+	{
+		for (var d = 1; d < 40; d++)
+		{
+			var d_inv = inverse_mod(d, 256) & 255;
+
+			for (var n = 1; n < 40; n++)
+			{
+				if(gcd(d, n) != 1)
+				{
+					continue;
+				}
+
+				var d_inv, j, i;
+
+				if(d & 1)
+				{
+					j = 0;
+					i = x * d_inv & 255;
+				}
+				else
+				{
+					j = x;
+					for (i = 0; i < 256 && j; i++)
+					{
+						j = (j - d) & 255;
+					}
+				}
+
+				if (j == 0)
+				{
+					var y = n * i & 255;
+
+					if (d + n + 5 < map[x][y].length)
+					{
+						map[x][y] = "[" + minus_map[d] + ">" + plus_map[n] + "<]>";
+						//iter = true;
+					}
+				}
+
+				if(d & 1)
+				{
+					j = 0;
+					i = -x * d_inv & 255;
+				}
+				else
+				{
+					j = x;
+					for (i = 0; i < 256 && j; i++)
+					{
+						j = (j + d) & 255;
+					}
+				}
+
+				if (j == 0)
+				{
+					var y = -n * i & 255;
+
+					if (d + n + 5 < map[x][y].length)
+					{
+						map[x][y] = "[" + plus_map[d] + ">" + minus_map[n] + "<]>";
+						//iter = true;
+					}
+				}
+
+			}
+		}
+	}
+	//console.timeEnd("1");
+
+	// combine number schemes                                                               
+	//console.time("2");
+	var map_x, map_z, map_xz;
+
+	for (var x = 0; x < 256; x++)
+	{
+		map_x = map[x];
+
+		for (var z = 0; z < 256; z++)
+		{
+			map_z = map[z];
+			map_xz = map_x[z];
+
+			for (var y = 0; y < 256; y++)
+			{
+				if (map_xz.length + map_z[y].length < map_x[y].length)
+				{
+					map_x[y] = map_xz + map_z[y];
+					//iter = true;
+				}
+			}
+		}
+	}
+	//console.timeEnd("2");
+
+	if(--repeat)
+	{
+		info_head.textContent += ".";
+		setTimeout(next, 0);
+	}
+	else
+	{
+		info_head.textContent += ". done (" + ((new Date() - start) / 1000).toFixed(2) + " seconds).";
+		do_generate();
+	}
+}
+
+function generate(str)
+{
+	var last = 0,
+		len = str.length,
+		char_map,
+		result = "",
+		memory = [0],
+		index = 0;
+
+	for(var i = 0; i < len; i++)
+	{
+		var 
+			// unicode not supported
+			chr = str.charCodeAt(i) & 255,
+			options = [
+				">" + map[0][chr],
+				//map[memory[index]][chr],
+				map[last][chr],
+			],
+			shortest;
+
+		//if(index > 0)
+		//{
+		//	options.push("[-]<" + map[memory[index - 1]][chr]);
+		//	//console.log(map[memory[index - 1]][chr].length - map[memory[index]][chr])
+		//}
+
+		shortest = shortest_str(options);
+
+		result += options[shortest] + ".";
+
+		/*if(shortest === 0)
+		{
+			index++;
+			memory[index] = chr;
+		}
+		else if(shortest === 1)
+		{
+			memory[index] = chr;
+		}
+		else 
+		{
+			memory[index] = 0;
+			//memory.pop();
+			index--;
+			memory[index] = chr;
+		}*/
+			
+		last = chr;
+	}
+
+	return result;
+}
+
+function do_generate()
+{
+	if(repeat)
+	{
+		return;
+	}
+
+	//var x = 0;
+	//for(var i = 0; i < 256; i++)
+	//	for(var j = 0; j < 256; j++)
+	//		x += map[i][j].length;
+
+	//console.log(x);
+	//console.assert(x == 807481);
+
+	var text = inp.value,
+		code = generate(text);
+
+	out.value = code;
+
+	info.textContent =
+		"text length = " + text.length + " bytes\n" + 
+		"code length = " + code.length + " bytes\n" + 
+		"ratio = " + (code.length / (text.length || 1)).toFixed(2);
+}
+
+window.onload = function()
+{
+	info_head.textContent = "Generating table .";
+
+	start = new Date();
+	setTimeout(next, 0);
+
+	if("oninput" in inp)
+		inp.oninput = do_generate;
+	else
+		inp.onkeyup = do_generate;
+};
+</script>
+
+</body></html>

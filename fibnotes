@@ -1,0 +1,20 @@
+{
+    moveTo closest('10minusC')
+    set 10
+    moveTo closest('B')
+    clear()
+
+    moveTo closest('A_2')
+    clear()
+
+    moveTo closest('A')
+    copyTo(right('A_2') and right('B'))
+    A = C
+    
+}
+
+
+
+
+$ with('temp0=temp0 temp1') run 'if0'
+How to specify actual code?
