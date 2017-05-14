@@ -1,4 +1,4 @@
-><
+
 $ wrapValue CRASH
 $ wrapMemory CRASH
 $ minValue 0
@@ -136,8 +136,7 @@ code2 <<   +>> +++++ +++++
         + > +
         <<<< <<
         End increase next digit
-        <<----- ----- >
-         x <<-
+        <<----- ----- <-
     ] C plus equals A
     $ assert hasName('overflow')
     <<
