@@ -133,7 +133,7 @@ code2 <<   +>> +++++ +++++
         <-<]>>
         End check if next digit was not previously activated
         $ name 'digitStart'
-        + > +
+        [-]+ > +
         <<<< <<
         End increase next digit
         <<----- ----- <-
