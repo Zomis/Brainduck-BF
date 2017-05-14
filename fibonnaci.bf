@@ -34,9 +34,7 @@ Digit 1 Value C
 >+++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++ ++++
 $ name 'digit'
 <<<<<
-
-TODO: Print 0 and initialize digits to 0 1
-<<<<<<<<<
+<<<<< <<<<
 
 Memory
 Countdown or loop condition
