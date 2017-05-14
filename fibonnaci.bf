@@ -45,7 +45,6 @@ Two empty cells
 
 Series of DIGITS:
 0 or 1 for if digit is activated
-TODO Add two empty here
 A
 A
 B
@@ -55,7 +54,8 @@ C
 temp
 temp2
 digit as char
-0 possibly unused
+Empty
+Empty
 
 
 
